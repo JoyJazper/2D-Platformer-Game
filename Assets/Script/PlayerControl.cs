@@ -17,11 +17,20 @@ public class PlayerControl : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.D))
         {
-            player_Object.GetComponent<Animator>().SetFloat("speed",0.6f);
+            this.GetComponent<Animator>().SetFloat("speed",0.6f);
         }
         else if(Input.GetKeyUp(KeyCode.D))
         {
-            player_Object.GetComponent<Animator>().SetFloat("speed", 0.3f);
+            this.GetComponent<Animator>().SetFloat("speed", 0.3f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            this.GetComponent<Animator>().SetBool("couchB",true);
+            this.GetComponent<Animator>().SetTrigger("couchT");
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            this.GetComponent<Animator>().SetBool("couchB", false);
         }
     }
 }
