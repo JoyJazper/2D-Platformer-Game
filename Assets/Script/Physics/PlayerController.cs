@@ -48,9 +48,11 @@ namespace PlayerPhysics
 
         private void MovePlayerHorizontal(float tempHorizontal)
         {
-            position = transform.position;
-            position.x += tempHorizontal * speed * Time.deltaTime;
-            transform.position = position;
+            if(!playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Couch")){
+                position = transform.position;
+                position.x += tempHorizontal * speed * Time.deltaTime;
+                transform.position = position;
+            }
         }
 
         private void GetInput()
@@ -58,7 +60,6 @@ namespace PlayerPhysics
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Jump");
         }
- 
         private void RunCheck()
         {
             playerAnimator.SetFloat("speed", Mathf.Abs(horizontal));
