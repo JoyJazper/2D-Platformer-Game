@@ -1,5 +1,6 @@
-﻿using System;
+﻿
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PlayerPhysics
 {
@@ -19,9 +20,13 @@ namespace PlayerPhysics
         private Vector2 playerColliderBounds;
         private Vector2 playerColliderSize;
 
-        private float speed = 30f;
+        private float speed = 35f;
         private float jumpForce = 2300f;
         private float heightToGround = 0.3f;
+
+        public static int lastSavedScore = 0;
+        public int score = 0;
+        public Text scoreValue;
 
         public bool onAir = false;
 
@@ -32,6 +37,7 @@ namespace PlayerPhysics
             playerRigidbody = GetComponent<Rigidbody2D>();
             playerCollider = GetComponent<BoxCollider2D>();
             scale = transform.localScale;
+            scoreValue.text = score.ToString();
         }
 
         private void Update()
@@ -42,6 +48,16 @@ namespace PlayerPhysics
             JumpCheck();
             CouchCheck();
             MovePlayerHorizontal(horizontal);
+        }
+
+        public void PickUpCoin(){
+            score++;
+            scoreValue.text = score.ToString();
+        }
+
+        public void SaveScore(){
+            //score + saved time + number of lives
+            lastSavedScore = score;
         }
 
         private void MovePlayerVertical()
