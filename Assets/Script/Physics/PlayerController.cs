@@ -19,12 +19,15 @@ namespace PlayerPhysics
         private Vector2 playerColliderBounds;
         private Vector2 playerColliderSize;
 
-        public float speed;
-        public float jumpForce;
-        public float heightToGround;
+        private float speed = 30f;
+        private float jumpForce = 2300f;
+        private float heightToGround = 0.3f;
+
+        public bool onAir = false;
 
         private void Start()
         {
+            
             playerAnimator = GetComponent<Animator>();
             playerRigidbody = GetComponent<Rigidbody2D>();
             playerCollider = GetComponent<BoxCollider2D>();
@@ -33,6 +36,7 @@ namespace PlayerPhysics
 
         private void Update()
         {
+            IsGrounded();
             GetInput();
             RunCheck();
             JumpCheck();
@@ -43,8 +47,7 @@ namespace PlayerPhysics
         private void MovePlayerVertical()
         {
             playerRigidbody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Force);
-            Debug.Log("Did it");
-        }
+        }    
 
         private void MovePlayerHorizontal(float tempHorizontal)
         {
@@ -62,6 +65,7 @@ namespace PlayerPhysics
         }
         private void RunCheck()
         {
+            if(!onAir && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Jump"))
             playerAnimator.SetFloat("speed", Mathf.Abs(horizontal));
             if (horizontal < 0)
             {
@@ -78,7 +82,7 @@ namespace PlayerPhysics
         {
             if (vertical > 0)
             {
-                if (IsGrounded() && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Jump"))
+                if (!onAir && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Jump"))
                 {
                     MovePlayerVertical();
                     playerAnimator.Play("Jump");
@@ -90,8 +94,11 @@ namespace PlayerPhysics
         {
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                playerAnimator.Play("Couch");
-                playerAnimator.SetBool("couchB", true);
+                if (!onAir)
+                {
+                    playerAnimator.Play("Couch");
+                    playerAnimator.SetBool("couchB", true);
+                }
             }
             else if (Input.GetKeyUp(KeyCode.LeftControl))
             {
@@ -99,12 +106,16 @@ namespace PlayerPhysics
             }
         }
 
-        private bool IsGrounded()
+        private void IsGrounded()
         {
             playerColliderBounds = playerCollider.bounds.center;
             playerColliderSize = playerCollider.bounds.size;
             RaycastHit2D raycastHit = Physics2D.BoxCast( playerColliderBounds, playerColliderSize, 0f, Vector2.down, heightToGround, ground);
-            return raycastHit.collider != null;
+            if(raycastHit.collider != null){
+                onAir = false;
+            }else{
+                onAir = true;
+            }
         }
     }
 }
