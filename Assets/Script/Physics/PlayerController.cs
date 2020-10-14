@@ -26,8 +26,10 @@ namespace PlayerPhysics
 
         public static int lastSavedScore = 0;
         public int score = 0;
+        public int health = 1000;
         public Text scoreValue;
 
+        public GameObject gameEndPanel;
         public bool onAir = false;
 
         private void Start()
@@ -40,6 +42,7 @@ namespace PlayerPhysics
             scoreValue.text = score.ToString();
         }
 
+
         private void Update()
         {
             IsGrounded();
@@ -48,6 +51,15 @@ namespace PlayerPhysics
             JumpCheck();
             CouchCheck();
             MovePlayerHorizontal(horizontal);
+        }
+
+        public void SetHealth(int value){
+            health = health + value;
+            Debug.Log("Health of the player is : "+ health);
+            if(health == 0){
+                playerAnimator.Play("Death");
+                gameEndPanel.SetActive(true);
+            }
         }
 
         public void PickUpCoin(){
