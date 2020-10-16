@@ -20,6 +20,8 @@ namespace PlayerPhysics
         private Vector2 playerColliderBounds;
         private Vector2 playerColliderSize;
 
+        public GameController gameController;
+
         private float speed = 35f;
         private float jumpForce = 2300f;
         private float heightToGround = 0.3f;
@@ -56,9 +58,12 @@ namespace PlayerPhysics
         public void SetHealth(int value){
             health = health + value;
             Debug.Log("Health of the player is : "+ health);
-            if(health == 0){
+            if(health > 0){
+                playerAnimator.Play("Hurt");
+            }else{
                 playerAnimator.Play("Death");
-                gameEndPanel.SetActive(true);
+                gameController.ShowDeadPanel();
+                health = 1000;
             }
         }
 
@@ -91,9 +96,10 @@ namespace PlayerPhysics
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Jump");
         }
+
         private void RunCheck()
         {
-            if(!onAir && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Jump"))
+            if(!playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Jump"))
             playerAnimator.SetFloat("speed", Mathf.Abs(horizontal));
             if (horizontal < 0)
             {
