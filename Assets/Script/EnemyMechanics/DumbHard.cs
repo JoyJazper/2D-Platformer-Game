@@ -1,53 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class DumbHard : MonoBehaviour
 {
-    private bool isVisible = false;
     public Transform playerTransform;
-
     private Animator enemyA;
     private float speed;
-    Vector3 playerPos;
-
-    Vector3 selfpos;
+    private float step;
+    private Vector3 enemyPos;
+    private float distance;
 
     private void Start() {
         speed = 10.0f;
         enemyA = gameObject.GetComponentInChildren<Animator>();
-        playerPos.y = transform.position.y;
-        playerPos.z = transform.position.z;
+        enemyPos = transform.position;
     }
 
     void Update()
     {
-        // Vector3 dir = playerTransform.position - transform.position;
-        // float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
-        // transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        if(isVisible)
-        {
-            float step =  speed * Time.deltaTime;
-            playerPos.y = transform.position.y;
-            playerPos.z = transform.position.z;
-            transform.position = Vector3.MoveTowards(transform.position, playerPos, step);
-            if (Vector3.Distance(transform.position, playerPos) < 0.001f)
-            {
-                isVisible = false;
-                Debug.Log("Is visible off.");
-            }
+        distance = Vector3.Distance(transform.position, playerTransform.position);
+        if(distance < 25.0f){
+            OnPlayerVisible();
+        }else{
+            OnPlayerNotVisible();
         }
     }
 
-    public void OnPlayerVisible(Transform player){
-        enemyA.SetBool("IsVisible",true);
-        isVisible = true;
-        playerPos.x = player.position.x;
+    private void OnPlayerVisible(){
+        enemyA.Play("Enemy1Run");
+        enemyPos.x = playerTransform.position.x;
+        step =  speed * Time.deltaTime;
+        enemyPos.y = transform.position.y;
+        enemyPos.z = transform.position.z;
+        transform.position = Vector3.MoveTowards(transform.position, enemyPos, step);
     }
 
-    public void OnPlayerNotVisible(){
-        enemyA.SetBool("IsVisible",false);
-        isVisible = false;
+    private void OnPlayerNotVisible(){
+        enemyA.Play("Enemy1Idle");
     }
 }

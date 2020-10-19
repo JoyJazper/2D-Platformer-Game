@@ -1,23 +1,20 @@
 ﻿
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using LifeMapper;
 
 public class GameController : MonoBehaviour
 {
     
-    //#region MainMenu
-    //     public GameObject lobbyPanel;
-
-    //     public void startScene(int level){
-    //         SceneManager.LoadSceneAsync(level);
-    //     }
-
-    //     public void startGame(){
-    //         lobbyPanel.SetActive(true);
-    //     }
-    // #endregion
+    #region MainMenu
+        public GameObject lobbyPanel;
+        public void startScene(int level){
+            SceneManager.LoadSceneAsync(level);
+        }
+        public void startGame(){
+            lobbyPanel.SetActive(true);
+        }
+    #endregion
 
 
     #region GameScene

@@ -8,9 +8,8 @@ namespace Enemy{
         private void Start() {
             hitPoint = 250;
             enemyA = gameObject.GetComponent<Animator>();
+            enemyA.SetBool("IsIdle", true);
         }
-
-        
     }
 }
 

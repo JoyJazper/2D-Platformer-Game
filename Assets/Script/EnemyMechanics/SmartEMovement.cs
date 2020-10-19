@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SmartEMovement : MonoBehaviour
 {
@@ -22,6 +20,7 @@ public class SmartEMovement : MonoBehaviour
     }
 
     public void CliffNoticed(){
+        //scale 
             if(angle == 180){
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 angle = 0;

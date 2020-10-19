@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using PlayerPhysics;
+﻿using UnityEngine;
 
 namespace Enemy{
     public class ObserverEnemy : Enemy
@@ -11,5 +8,4 @@ namespace Enemy{
             enemyA = GetComponent<Animator>();
         }
     }
-
 }
