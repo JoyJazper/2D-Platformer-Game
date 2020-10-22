@@ -10,10 +10,13 @@ public class LevelLoader : MonoBehaviour
     private string levelName;
     private LevelManager levelManager;
 
+    private SoundManager localSoundManager;
+
     private void Awake() {
         selectedLevel = GetComponent<Button>();
         selectedLevel.onClick.AddListener(() => LoadLevel(name));
         levelManager = LevelManager.Instance;
+        localSoundManager = SoundManager.Instance;
     }
 
     private void Start() {
@@ -34,6 +37,7 @@ public class LevelLoader : MonoBehaviour
 
     private void LoadLevel(string level){
         
+        localSoundManager.Play(SoundType.ButtonPressed);
         if(levelManager == null){
             Debug.LogError("levelManager is not set to an instance");
             return;

@@ -56,13 +56,16 @@ public class GameController : MonoBehaviour
         #endregion
 
         #region SceneManager
-
+            private SoundManager localSoundManager;
             public void ShowDeadPanel(){
+                localSoundManager = SoundManager.Instance;
+                localSoundManager.Play(SoundType.GameOver);
                 deadPanel.SetActive(true);
             }
 
             public void BackToSave(){
                 player.GetComponent<Animator>().Play("Idle");
+                localSoundManager.Play(SoundType.ButtonPressed);
                 player.transform.SetPositionAndRotation(playerRespawnPosition, playerRespawnRotation);
                 deadPanel.SetActive(false);
             }
@@ -71,6 +74,7 @@ public class GameController : MonoBehaviour
             }
 
             public void AppQuit(){
+                localSoundManager.Play(SoundType.ButtonPressed);
                 Application.Quit();
             }
 
