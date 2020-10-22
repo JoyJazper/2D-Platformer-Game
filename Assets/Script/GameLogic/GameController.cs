@@ -5,18 +5,6 @@ using LifeMapper;
 
 public class GameController : MonoBehaviour
 {
-    
-    #region MainMenu
-        public GameObject lobbyPanel;
-        public void startScene(int level){
-            SceneManager.LoadSceneAsync(level);
-        }
-        public void startGame(){
-            lobbyPanel.SetActive(true);
-        }
-    #endregion
-
-
     #region GameScene
         public GameObject deadPanel;
         #region LifeManager
